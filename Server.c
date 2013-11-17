@@ -12,7 +12,7 @@ GNU General Public License for more details.
 
 File: Server.c
 Programmer: Rushil Kapoor
-Build: gcc Server.c
+Build: gcc Server.c -o Server
 Execute: ./Server ipaddress portnumber
 
 */
