@@ -1,5 +1,9 @@
+Simple Server and Client programs using the socket programming on Linux (UNIX)  that can simulate the functionality 
+of a real FTP Server and Client.
+
+
 Client Specifications: Client should accept as parameters from the command line:the IP Address and the port number of the server. Client should show a prompt on 
-which any of the following commands may be issued so as to provide usual ftp client’s functions : 
+which any of the following commands may be issued so as to provide usual ftp clientï¿½s functions : 
 s_ls to list the files in the current directory on the server side. 
 s_pwd to list the current directory on the server side. 
 c_ls to list the files in the current directory on the client side.
@@ -13,7 +17,7 @@ these should be saved in the current directory with the same file name as on the
 
 Server Specifications: Server should accept a single parameter from the command line the port number to listen to. The server should execute the commands 
 received from the server and send their output to the client. For the get command, after receiving the name of the file from the client, if the file cannot be 
-opened in the current directory, then the server should return appropriate message to client so that it may print “File not found” error message. If the file is 
+opened in the current directory, then the server should return appropriate message to client so that it may print ï¿½File not foundï¿½ error message. If the file is 
 opened successfully, then the server should send all the characters of the file to the client until the end of the file is reached. After sending the file, the 
 server should close the file and then continue to listen for more client requests, in an iterative fashion. Server should print out appropriate informative 
 messages as it executes. Server should run indefinitely until the user kills it (say using control-C at the command line).
