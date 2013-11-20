@@ -27,13 +27,10 @@ Execute: ./Server portnumber
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<fcntl.h>
-
-//Macros defined
 #define SIZE 500
 #define QUIT_STRING "exit"
 #define BLANK_STRING " "
 
-//Function Prototypes
 void ls_pwd(char*,char*);
 void getfile(char *,char *);
 void makefile(char *,char *);
@@ -51,7 +48,6 @@ void copy(char b[],int beg,char t[])
         t[i-beg]=b[i];
 }
 
-//Main Function
 int main(int argc,char *argv[])
 {
     int sockfd,newsockfd,portno,clientlen,ret,no_of_bytes;
@@ -128,7 +124,7 @@ int main(int argc,char *argv[])
             {
                 makefile(buffer,temp);
                 bzero(buffer,SIZE);
-                strcpy(buffer,"File created\n");
+                strcpy(buffer,"File created in Server directory.\n");
                 no_of_bytes=write(newsockfd,buffer,strlen(buffer));
             }
             else
@@ -199,8 +195,9 @@ void ls_pwd(char* buffer,char* func )
 
     fd = open("temp_file", O_WRONLY|O_CREAT|O_TRUNC, 0666);
     dup2(fd, 1);
-    close(fd);
     system(func);
+    dup2(1,fd);
+    close(fd);
 
     fp=fopen("temp_file","r");
     while(1)
@@ -211,4 +208,5 @@ void ls_pwd(char* buffer,char* func )
         buffer[i++]=ch;
     }
     fclose(fp);
+
 }
