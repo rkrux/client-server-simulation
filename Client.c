@@ -30,6 +30,7 @@ Execute: ./Client ipaddress portnumber
 #define SIZE 500
 
 void getfile(char*,char *);
+void makefile(char*,char *);
 
 void error(char *msg)
 {
@@ -44,7 +45,6 @@ void copy(char b[],int beg,char t[])
         t[i-beg]=b[i];
 }
 
-//Main Function
 int main(int argc, char *argv[])
 {
     int sockfd, portno, no_of_bytes;
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     while(1)
     {
         bzero(buffer,SIZE);
-        printf("my_ftp_client> ");
+        printf("768/IT/11_ftp-client> ");
         fgets(buffer,SIZE-1,stdin);
 
         if(strcmp(buffer,"quit\n")==0)
@@ -103,12 +103,14 @@ int main(int argc, char *argv[])
         }
         else
         {
+
             no_of_bytes=write(sockfd,buffer,strlen(buffer));
             if(no_of_bytes<0)
             {
                 error("Error in writing");
                 return 1;
             }
+
             //if put has been sent then read file contents in buffer and again write them to server
             if(strncmp(buffer,"put",3)==0)
             {
@@ -121,17 +123,56 @@ int main(int argc, char *argv[])
                     error("Error in writing");
                     return 1;
                 }
+                printf("Message from Server:\n\n");
+                bzero(buffer,SIZE);
+                no_of_bytes = read(sockfd,buffer,SIZE-1);
+                if (no_of_bytes < 0)
+                {
+                    error("Error in reading");
+                    break;
+                }
+                printf("%s\n",buffer);
             }
-            printf("Message from Server:\n\n");
 
-            bzero(buffer,SIZE);
-            no_of_bytes = read(sockfd,buffer,SIZE-1);
-            if (no_of_bytes < 0)
+            else if(strncmp(buffer,"get",3)==0)
             {
-                error("Error in reading");
-                break;
+                bzero(temp,SIZE);
+                copy(buffer,4,temp);
+
+                printf("Message from Server:\n\n");
+                bzero(buffer,SIZE);
+                no_of_bytes = read(sockfd,buffer,SIZE-1);
+                if (no_of_bytes < 0)
+                {
+                    error("Error in reading");
+                    break;
+                }
+
+                if(strcmp(buffer,"No such file in Server Directory\n")!=0)
+                {
+                    makefile(buffer,temp);
+                    bzero(buffer,SIZE);
+                    printf("File created in Client directory.\n");
+                }
+                else
+                {
+                    bzero(buffer,SIZE);
+                    printf("No such file in Server Directory.\n");
+                }
             }
-            printf("%s\n",buffer);
+
+            else
+            {
+                printf("Message from Server:\n\n");
+                bzero(buffer,SIZE);
+                no_of_bytes = read(sockfd,buffer,SIZE-1);
+                if (no_of_bytes < 0)
+                {
+                    error("Error in reading");
+                    break;
+                }
+                printf("%s\n",buffer);
+            }
         }
     }
 }
@@ -159,4 +200,20 @@ void getfile(char *array,char *temp)
         fclose(fp);
     }
 
+}
+
+void makefile(char *array,char *temp)
+{
+    FILE *fp;
+    char ch;
+    int i=0;
+    fp=fopen(temp,"w");
+    while(1)
+    {
+        ch=array[i++];
+        if(ch=='\0')
+            break;
+        fputc(ch,fp);
+    }
+    fclose(fp);
 }
