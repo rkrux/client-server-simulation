@@ -1,3 +1,2 @@
-This file is used in put function.
-Client is sending the contents of this file to the Server which will create its own file with the same name in its 
+This file can be used in put function. Client is sending the contents of this file to the Server which will create its own file with the same name in its 
 directory.
