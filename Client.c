@@ -11,7 +11,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 File: Client.c
-Programmer: Rushil Kapoor
 Build: gcc Client.c -o Client
 Execute: ./Client ipaddress portnumber
 
